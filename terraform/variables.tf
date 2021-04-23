@@ -12,3 +12,10 @@ variable "region" {
   default = "us-west-2"
   description = "Region to host VPC within."
 }
+
+variable "vpc_cidr_block" {
+  type = string
+
+  default = "192.168.8.0/22"
+  description = "cidr block for your jenkins vpc"
+}

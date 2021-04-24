@@ -31,5 +31,6 @@ FactoryBot.define do
 
   factory(:app) do
     creds
+    hide_io { true }
   end
 end

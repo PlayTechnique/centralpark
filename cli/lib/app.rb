@@ -1,8 +1,31 @@
+require "stringio"
+
 class App
-  attr_accessor :creds, :potato
+  attr_accessor :creds, :potato, :hide_io
+
+  def self.run
+    App.new.run(ARGV)
+  end
 
   def whoami
     @creds.name
+  end
+
+  def run(*args)
+    # parse options and find command
+    # run command
+    Runner.new(@hide_io) { |io| io.puts("--help") }
+  end
+
+  class Runner
+    def initialize(hide_io, &bloc)
+      @io = hide_io ? StringIO.new : STDOUT
+      bloc.call(@io)
+    end
+
+    def stdout
+      @io.string
+    end
   end
 end
 

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+function test_cli() {
+  cli/tests
+}
+
+function test_all() {
+  test_cli
+}
+
+function main() {
+  set -x
+  test_all
+}
+
+test -n "$NO_MAIN" || main

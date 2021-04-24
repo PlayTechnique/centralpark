@@ -4,4 +4,4 @@ set -e
 
 cd `dirname "$0"`
 
-ruby test/test_all.rb "$@"
+bundle exec ruby test/test_all.rb "$@"

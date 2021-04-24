@@ -1,6 +1,8 @@
 resource "aws_subnet" "jenkins_subnet" {
-  vpc_id = aws_vpc.jenkins_vpc.id
+  vpc_id     = aws_vpc.jenkins_vpc.id
   cidr_block = cidrsubnet(aws_vpc.jenkins_vpc.cidr_block, 6, 0)
+
+  availability_zone           = var.jenkins_availability_zone
 }
 
 resource "aws_internet_gateway" "jenkins_igw" {
@@ -9,10 +11,6 @@ resource "aws_internet_gateway" "jenkins_igw" {
   tags = {
     Name = "jenkins_igw"
   }
-}
-
-output "inspect_subnet" {
-  value = aws_subnet.jenkins_subnet.cidr_block
 }
 
 resource "aws_route_table" "jenkins_routes" {

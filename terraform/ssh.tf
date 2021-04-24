@@ -1,4 +1,0 @@
-resource "aws_key_pair" "access_aws" {
-  key_name   = "aws_access_key"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDzvUnajNBwDTZjWXeZh0gPKODykbxzmxJxujTGCTQatGpq1y/hx2piobvdjLtE47yb6BWmkI9HVZpF15/gFBaNB3UQaF+Y0I6L9qHXSyayZSTtjKv4q2HtBIwXevh3xjnufHzE6VBCINwmDFEnR1gt/svZPnIgoDtFmChfIONuarmBSqvwHcbiDaX+UVlUJ6qmxRSvW2u8enRnUF9VOIXquZAoZYT4YDFB4WrCJ17EhCD8ChLjnTA2g2JCxl87G7xHT4FLN++qxAG7A7FWrqR/52WKHM/H0rwu0+nqpW+UFpkPEGqB3CZZcjuWVRGwpWW4SJMLKxZC+Is4B66l3g2u+JWgyTWeTzzrrjcL47FTfMRwB/+BXlvN0KSE+uDqXWx9aaci3IfyW1ujo3RFxWfoHBh+Rs9NbihHHxuyc9Lsh4UOnHISll7MSyrLsOcimXF5U22wfeSY2He+re3FKQ4xJI6Q53Yf+ZgbDukAlo/lyifd4Q90vATOdNIsfkUiygs= jams@patchworkplaytechniqueio.local"
-}

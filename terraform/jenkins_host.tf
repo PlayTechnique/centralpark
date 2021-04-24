@@ -1,18 +1,20 @@
 resource "aws_instance" "jenkins" {
 
-  ami = "ami-0c54097900b6afcbe" #fedora
-  
+  ami = var.jenkins_host_ami_id[var.jenkins_region] #fedora
+
   associate_public_ip_address = true
-  key_name = aws_key_pair.access_aws.key_name
-  instance_type = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.allow_ssh_access.id, aws_security_group.allow_http_access.id]
-  subnet_id = aws_subnet.jenkins_subnet.id
+  key_name                    = aws_key_pair.jenkins_ssh_key.key_name
+  instance_type               = "t2.micro"
+  vpc_security_group_ids      = [aws_security_group.allow_ssh_access.id, aws_security_group.allow_http_access.id, aws_security_group.allowed_egress.id]
+  subnet_id                   = aws_subnet.jenkins_subnet.id
+
+  availability_zone           = var.jenkins_availability_zone
 
   user_data = <<-EOS
   #!/bin/bash
 
   dnf -y update
-  
+
   dnf -y install dnf-plugins-core
 
   dnf config-manager \
@@ -28,6 +30,8 @@ resource "aws_instance" "jenkins" {
   usermod -aG docker fedora
 
   sudo -u fedora bash -c "docker pull jenkins/jenkins:lts"
+
+  docker run -d -p 8080:8080 --name jinkies jenkins/jenkins:lts
   EOS
 
 
@@ -35,8 +39,4 @@ resource "aws_instance" "jenkins" {
   tags = {
     Name = "jinkies"
   }
-}
-
-output "inspect_public_address" {
-  value = aws_instance.jenkins.public_ip
 }

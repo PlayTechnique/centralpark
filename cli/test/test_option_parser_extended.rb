@@ -30,19 +30,6 @@ describe "OptParseX" do
     end
   end
 
-  it "bloc runs" do
-    a = 5
-
-    p1 = OptParseX.new do |opts|
-      opts.on("-t", "--test") do
-        a = 10
-      end
-    end
-
-    p1.parse("-t", "banana")
-    assert_equal(10, a)
-  end
-
   it "splits args from options" do
     p1 = OptParseX.new do |opts|
       opts.on("-t", "--test")

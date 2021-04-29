@@ -74,8 +74,8 @@ EOS
       end
     end
 
-    full_parser = global_options.merge(runner_options)
-    parsed = full_parser.parse(@args)
+    full_parser = global_options + runner_options
+    parsed = full_parser.parsed(@args)
     config.full_args = parsed.args
     config.full_opts = parsed.opts
     config.raw_argv = @args

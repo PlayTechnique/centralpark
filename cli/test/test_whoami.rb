@@ -18,13 +18,13 @@ describe "whoami" do
     assert_includes(cmd.stdout, "dingus")
   end
 
-  it "prints name" do
+  it "detects subcommand option (-t)" do
     @app = FactoryBot.build(:app, creds: FactoryBot.build(:creds, name: "dingus"))
     @app.run("whoami", "-t")
     assert(@app.config.test_flag_set)
   end
 
-  it "respects global option --creds-file" do
+  it "respects global option (--creds-file FILE)" do
     @app = FactoryBot.build(:app, creds: nil)
     cmd = @app.run("whoami", "--creds-file", "./test/faux-creds")
     assert_includes(cmd.stdout, "roflcopter")

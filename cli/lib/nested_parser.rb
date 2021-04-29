@@ -1,25 +1,25 @@
 require "optparse"
 require "ostruct"
 
-class OptParseX
-  attr_reader :ons
+class OptParseX < OptParse
   def initialize(&bloc)
-    @ons = []
-    @opt_arse = OptParse.new(&bloc)
-    bloc.call(self)
+    @saved_on_calls = []
+    super
   end
 
   def on(*args, &bloc)
-    @ons << OpenStruct.new({args: args, bloc: bloc})
+    super
+
+    @saved_on_calls << OpenStruct.new({args: args, bloc: bloc})
   end
 
-  def parse(*args)
+  def parsed(*args)
     opts = {}
-    args = @opt_arse.parse(*args, into: opts)
+    args = parse(*args, into: opts)
     OpenStruct.new(args: args, opts: opts)
   end
 
-  def merge(*more)
+  def +(*more)
     all_sub_opt_parsers = [self, *more]
 
     return self.class.new do |opts|
@@ -29,5 +29,11 @@ class OptParseX
         end
       end
     end
+  end
+
+  protected
+
+  def ons
+    @saved_on_calls
   end
 end

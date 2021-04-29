@@ -2,6 +2,7 @@ require "stringio"
 require "optparse"
 require "json"
 require "ostruct"
+require "nested_parser"
 
 class App
   attr_accessor :creds, :potato, :hide_io
@@ -16,6 +17,16 @@ class App
 
   def whoami
     creds.name
+  end
+
+  def runner
+    run_args = config.full_args[1..]
+
+    if config.dry_run
+      ["(--DRY-RUN): "] + run_args
+    else
+      ["about to run: "] + run_args
+    end
   end
 
   def creds
@@ -42,12 +53,12 @@ EOS
 
     Runner.new(@hide_io) do |io|
       @logger = io
-      send(subcommand || :help)
+      send(subcommand)
     end
   end
 
   def subcommand
-    p = OptionParser.new do |opts|
+    global_options = OptParseX.new do |opts|
       opts.on("-t") do
         config.test_flag_set = true
       end
@@ -55,18 +66,21 @@ EOS
       opts.on("--creds-file FILE") do |creds_file|
         config.conf_location = creds_file
       end
-
-      config.option_parser = opts
     end
 
-    opts = {}
-    cmds = p.parse(@args, into: opts)
-    config.raw_commands = cmds
-    config.raw_options = opts
+    runner_options = OptParseX.new do |opts|
+      opts.on("--dry-run") do
+        config.dry_run = true
+      end
+    end
+
+    full_parser = global_options.merge(runner_options)
+    parsed = full_parser.parse(@args)
+    config.full_args = parsed.args
+    config.full_opts = parsed.opts
     config.raw_argv = @args
-    cmd = cmds.first
-    cmd ||= "help"
-    raise "#{cmd} is not a subcommand" unless ["whoami", "help"].include?(cmd)
+    cmd = config.full_args.first || "help"
+    raise "#{cmd} is not a subcommand" unless ["whoami", "help", "runner"].include?(cmd)
     cmd
   end
 
@@ -79,6 +93,8 @@ EOS
   end
 
   class Runner
+    attr_reader :value
+
     def initialize(hide_io, &bloc)
       @io = hide_io ? StringIO.new : $stdout
       @value = bloc.call(@io)

@@ -6,4 +6,5 @@ group(:test) do
   gem("minitest-reporters")
   gem("rake", "13.0.3")
   gem("factory_bot")
+  gem("docker-api")
 end

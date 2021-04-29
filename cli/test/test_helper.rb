@@ -1,5 +1,6 @@
 require "minitest/autorun"
 require "minitest/reporters"
+require "minitest/pride"
 
 Minitest::Reporters.use!(
   [

@@ -10,6 +10,10 @@ GEM
     ansi (1.5.0)
     builder (3.2.4)
     concurrent-ruby (1.1.8)
+    docker-api (2.1.0)
+      excon (>= 0.47.0)
+      multi_json
+    excon (0.80.1)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
     i18n (1.8.10)
@@ -20,6 +24,7 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
+    multi_json (1.15.0)
     rake (13.0.3)
     ruby-progressbar (1.11.0)
     tzinfo (2.0.4)
@@ -28,8 +33,10 @@ GEM
 
 PLATFORMS
   x86_64-darwin-19
+  x86_64-darwin-20
 
 DEPENDENCIES
+  docker-api
   factory_bot
   minitest (= 5.14.4)
   minitest-reporters

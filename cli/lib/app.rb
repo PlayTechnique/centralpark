@@ -1,8 +1,7 @@
 require "stringio"
-require "optparse"
 require "json"
 require "ostruct"
-require "nested_parser"
+require "option_parser_extended"
 
 class App
   attr_accessor :creds, :potato, :hide_io

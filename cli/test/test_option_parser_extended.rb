@@ -1,4 +1,4 @@
-require "nested_parser"
+require "option_parser_extended"
 require "test_helper"
 
 describe "OptParseX" do
